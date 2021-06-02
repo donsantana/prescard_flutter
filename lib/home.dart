@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_linkedin/linkedloginflutter.dart';
 import 'package:prescard/login/authView.dart';
 
 class MyHomePage extends StatefulWidget {

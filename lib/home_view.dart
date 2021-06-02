@@ -1,13 +1,19 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:prescard/Views/profileView.dart';
 import 'package:prescard/Views/users_connected_list.dart';
 import 'package:prescard/utils/responsive.dart';
 
+import 'model/user.dart';
+
 class HomeView extends StatelessWidget {
+
   @override
   Widget build(BuildContext context) {
     final responsive = Responsive(context);
+    User userProfile = ModalRoute.of(context).settings.arguments;
+    print(userProfile.lastName);
     return OrientationBuilder(builder: (context, orientation){
       return DefaultTabController(
         length: 2,
@@ -18,7 +24,7 @@ class HomeView extends StatelessWidget {
             child: AppBar(
               //backgroundColor: Colors.wi,
               automaticallyImplyLeading: false,
-              title: Text("PRESCARD"),
+              //title: Text("PRESCARD"),
               toolbarHeight: orientation == Orientation.portrait ? responsive.heightPercent(5) : responsive.widthPercent(5),
               bottom: TabBar(
                 //indicatorColor: AppColors.novenSecondaryColor,
@@ -34,7 +40,7 @@ class HomeView extends StatelessWidget {
           body: TabBarView(
             children: <Widget>[
               UsersConnectedList(),
-              ProfileView(),
+              ProfileView(userProfile: userProfile),
             ],
           ),
         ),

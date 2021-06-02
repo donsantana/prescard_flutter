@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_linkedin/linkedloginflutter.dart';
+//import 'package:flutter_linkedin/linkedloginflutter.dart';
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 import 'package:prescard/model/user.dart';
 import 'package:linkedin_login/linkedin_login.dart';
+import 'package:prescard/services/api.dart';
 import 'package:prescard/utils/responsive.dart';
 
 class AuthView extends StatefulWidget {
@@ -11,6 +12,7 @@ class AuthView extends StatefulWidget {
 }
 
 class _AuthViewState extends State<AuthView> {
+  APIService apiService = APIService();
   final String redirectUrl = 'https://app.carde.de';
   final String clientId = '78el5r2y1dwp4j';
   final String clientSecret = 'RnyXiCNz3cahNx1g';
@@ -21,15 +23,21 @@ class _AuthViewState extends State<AuthView> {
 
   @override
   void initState() {
-    LinkedInLogin.initialize(context,
-        clientId: clientId,
-        clientSecret: clientSecret,
-        redirectUri: redirectUrl);
+    // LinkedInLogin.initialize(context,
+    //     clientId: clientId,
+    //     clientSecret: clientSecret,
+    //     redirectUri: redirectUrl);
     super.initState();
+  }
+
+
+  Future<void> getUserProfile(){
+    apiService.getUserInfo();
   }
 
   void storeToken(String accessToken) async{
     await storage.write(key: "authToken", value: accessToken);
+    this.getUserProfile();
   }
 
   void createUserProfile(LinkedInUserModel linkedInUser) async{
@@ -96,12 +104,13 @@ class _AuthViewState extends State<AuthView> {
 
                             print('Access token ${linkedInUser.token.accessToken}');
 
-                            print('User: ${linkedInUser.firstName.localized.label}');
+                            print('User: ${linkedInUser.toString()}');
 
                             setState(() {
                               logoutUser = false;
                             });
-                            Navigator.pushNamed(context,"/profile");
+
+                            //Navigator.pushNamed(context,"/profile");
                             //Navigator.pop(context);
                           },
                           catchError: (LinkedInErrorObject error) {

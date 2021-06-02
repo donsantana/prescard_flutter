@@ -16,6 +16,7 @@ class User extends ChangeNotifier{
   });
 
   static Future<User> fromJson(LinkedInUserModel user) async {
+    print(user.profilePicture.displayImageContent.elements.first.identifiers.first.identifier);
     return User(id: user.userId, firstName: user.firstName.localized.label, lastName: user.lastName.localized.label, profilePicture: user.profilePicture.displayImageContent.elements.first.identifiers.first.identifier, mobilPhone: "", email: user.email.elements.first.handleDeep?.emailAddress);
     // return User(
     //   id = user.firstName.localized.label,
